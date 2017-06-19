@@ -11,12 +11,24 @@ function showPlanetTable(planetTableURL){
         planetTableContent += "<th>Population</th></thead><tbody>";
         for(let i=0; i<resultPlanets.length; i++){
             var planet = resultPlanets[i];
+            var diameterToPrint = Number(planet['diameter']).toLocaleString() + ' km';
+            if (planet['diameter'] === 'unknown'){
+                diameterToPrint = 'unknown';
+            }
+            var surfaceWaterToPrint = planet['surface_water'] + " %";
+            if (planet['surface_water'] === 'unknown'){
+                surfaceWaterToPrint = 'unknown';
+            }
+            var populationToPrint = Number(planet['population']).toLocaleString() + ' people';
+             if (planet['population'] === 'unknown'){
+                populationToPrint = 'unknown';
+            }
             planetTableContent += "<tr><td>" + planet['name'] + "</td>";
-            planetTableContent += "<td>" + planet['diameter'] + "</td>";
+            planetTableContent += "<td>" + diameterToPrint + "</td>";
             planetTableContent += "<td>" + planet['climate'] + "</td>";
             planetTableContent += "<td>" + planet['terrain'] + "</td>";
-            planetTableContent += "<td>" + planet['surface_water'] + "</td>";
-            planetTableContent += "<td>" + planet['population'] + "</td></tr>";
+            planetTableContent += "<td>" + surfaceWaterToPrint + "</td>";
+            planetTableContent += "<td>" + populationToPrint + "</td></tr>";
         }
         planetTableContent += "</tbody></table>";
         $('#button-wrapper').html(buttons);
