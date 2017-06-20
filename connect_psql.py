@@ -1,7 +1,10 @@
 import psycopg2
-import config
-import public_config
-import private_config
+import os
+from importlib.machinery import SourceFileLoader
+current_file_path = os.path.dirname(os.path.abspath(__file__))
+config = SourceFileLoader("config", current_file_path + "/config/config.py").load_module()
+public_config = SourceFileLoader("public_config", current_file_path + "/config/public_config.py").load_module()
+private_config = SourceFileLoader("private_config", current_file_path + "/config/private_config.py").load_module()
 
 
 def get_db_config(settings):
