@@ -18,8 +18,11 @@
             <br>
             <div class="row">
                 <div class="col-sm-10">
+                    <p>{{ success_message }}</p>
                     {% if(user_name=='') %}
-                        <p>You are not logged in.</p>
+                        {% if(success_message == '') %}
+                            <p>You are not logged in.</p>
+                        {% endif %}
                         <a href="/login" class="btn btn-success btn-xs">
                             Login <i class="fa fa-sign-in" aria-hidden="true"></i>
                         </a>

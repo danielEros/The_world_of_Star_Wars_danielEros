@@ -3,24 +3,28 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Login page</title>
+        <title>Registration page</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="/static/style.css">
     </head>
     <body>
-        <h3>Login to the World of Star Wars</h3>
+        <h3>Register to the World of Star Wars</h3>
         <br>
         <p id="error_message">{{ error_message }}</p>
-        <form method="post" action="/login">
+        <form method="post" action="/register">
             <label for="username">Please enter your username</label>
             <br>
-            <p><input id="username" name="username" required></p>
+            <p><input id="username" name="username" required minlength="5"></p>
             <br><br>
             <label for="username">Please enter your password</label>
             <br>
-            <p><input type="password" id="password" name="password" required></p>
+            <p><input type="password" id="password" name="password" required minlength="5"></p>
             <br><br>
-            <p><input type="submit" id="submit-button" value="Login" class="btn btn-primary btn-sm">
+            <label for="username">Please repeat your password</label>
+            <br>
+            <p><input type="password" id="password2" name="password2" required minlength="5"></p>
+            <br><br>
+            <p><input type="submit" id="submit-button" value="Register" class="btn btn-primary btn-sm">
             <a href="/" class="btn btn-warning btn-sm">Cancel</a></p>
         </form>
     </body>

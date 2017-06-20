@@ -5,3 +5,7 @@ p {
 #error_message {
     color: red;
 }
+
+body {
+    padding-left: 10px;
+}
