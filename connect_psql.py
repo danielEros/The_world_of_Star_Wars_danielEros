@@ -23,7 +23,7 @@ def get_db_config(settings):
     return dict()
 
 
-def handle_database(command):
+def execute_sql_command(command):
     try:
         config_data = get_db_config(config.get_settings())
         connect_str = ("dbname='" + config_data['db_name'] +

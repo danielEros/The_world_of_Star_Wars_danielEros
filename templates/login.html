@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Login page</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/static/style.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js" defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" defer></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" defer></script>
+        <script type="text/javascript" src="/static/login.js" defer></script>
+    </head>
+    <body>
+        <h3>Login to the World of Star Wars</h3>
+        <br>
+        <p id="error_message">{{ error_message }}</p>
+        <form method="post" action="/login">
+            <label for="username">Please enter your username</label>
+            <br>
+            <p><input id="username" name="username" required></p>
+            <br><br>
+            <label for="username">Please enter your password</label>
+            <br>
+            <p><input type="password" id="password "name="password" required></p>
+            <p><input type="submit" id="submit-button" value="Login" class="btn btn-primary btn-sm">
+            <a href="/" class="btn btn-warning btn-sm">Cancel</a></p>
+        </form>
+    </body>
+</html>

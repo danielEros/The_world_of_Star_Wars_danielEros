@@ -15,7 +15,7 @@ DROP SEQUENCE IF EXISTS public.users_id_seq;
 CREATE TABLE users (
     id serial NOT NULL,
     username varchar(30) UNIQUE,
-    password varchar(80)
+    password varchar(120)
 );
 
 DROP TABLE IF EXISTS public.planet_votes;

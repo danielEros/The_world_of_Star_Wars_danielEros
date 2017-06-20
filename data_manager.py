@@ -1,2 +1,6 @@
 import connect_psql
 
+
+def get_username_password(username):
+    sql_command = ("""SELECT username, password FROM users WHERE username='%s';""" % (username))
+    return connect_psql.execute_sql_command(sql_command)
