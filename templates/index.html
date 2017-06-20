@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <title>The world of Star Wars</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="/static/style.css">
         <script src="https://code.jquery.com/jquery-1.12.4.js" defer></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" defer></script>
@@ -13,9 +14,28 @@
         <script type="text/javascript" src="/static/index.js" defer></script>
     </head>
     <body>
-        <header>
-            <p>Username: {{ user_name }}</p>
+        <header class="container">
+            <br>
+            <div class="row">
+                <div class="col-sm-10">
+                    {% if(user_name=='') %}
+                        <p>You are not logged in.</p>
+                        <a href="/login" class="btn btn-success btn-xs">
+                            Login <i class="fa fa-sign-in" aria-hidden="true"></i>
+                        </a>
+                        <a href="/register" class="btn btn-default btn-xs">
+                            Register <i class="fa fa-user-plus" aria-hidden="true"></i>
+                        </a>
+                    {% else %}
+                        <p>You are logged in as {{ user_name }}.</p>
+                        <a href="/logout" class="btn btn-info btn-xs">
+                            Logout <i class="fa fa-sign-out" aria-hidden="true"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
         </header>
+        <hr>
         <section class="container">
             <h1>Star Wars universe planets</h1>
             <div id="button-wrapper"></div>
