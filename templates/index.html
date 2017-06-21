@@ -36,12 +36,17 @@
                         </a>
                     {% endif %}
                 </div>
+                <div class="col-sm-2">
+                    <p id="planet_statistics" class="btn btn-success btn-xs">Planet statistics
+                        <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                    </p>
+                </div>
             </div>
         </header>
         <hr>
         <section class="container">
             <h1>Star Wars universe planets</h1>
-            <div id="button-wrapper"></div>
+            <div id="button-wrapper" data-user-name="{{ user_name }}"></div>
             <div id="table-wrapper"></div>
         </section>
     </body>

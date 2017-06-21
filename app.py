@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, session, url_for, request
+from flask import Flask, render_template, redirect, session, url_for, request, jsonify
 import werkzeug.security
 import data_manager
 
@@ -62,6 +62,31 @@ def register():
 def logout():
     session.pop('username', None)
     return redirect(url_for('index_page'))
+
+
+@app.route('/search_db_if_voted')
+def search_db_if_voted():
+    planet_id = request.args.get('planetID', 0, type=int)
+    user_name = request.args.get('userName')
+    user_id = data_manager.get_user_id_by_user_name(user_name)[0][0]
+    voted_planets = data_manager.get_planets_voted_by_user(user_id)
+    #print(jsonify(voted_planets))
+    result = 'not voted'
+    planet_id_to_return = ''
+    for planet in voted_planets:
+        if planet_id == planet[0]:
+            result = 'voted'
+            planet_id_to_return = planet_id
+    return jsonify(result=result, planet_id=planet_id)
+
+
+@app.route('/register_vote_in_db', methods=['POST'])
+def register_vote_in_db():
+    user_name = request.form['userName']
+    planet_id = request.form['planetID']
+    user_id = data_manager.get_user_id_by_user_name(user_name)[0][0]
+    data_manager.update_vote_table(user_id, planet_id)
+    return jsonify(result="success", planet_id=planet_id)
 
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'

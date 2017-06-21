@@ -1,4 +1,4 @@
-function showPlanetTable(planetTableURL){
+function showPlanetTable(planetTableURL, userName){
     $.getJSON(planetTableURL, function(response){
         var resultPlanets = response['results'];
         buttons = "<button type='button' class='btn btn-primary navbutton'>Previous</button>";
@@ -9,10 +9,19 @@ function showPlanetTable(planetTableURL){
         planetTableContent += "<th>Terrain</th>";
         planetTableContent += "<th>Water</th>";
         planetTableContent += "<th>Population</th>";
-        planetTableContent += "<th>Residents</th></thead><tbody>";
+        planetTableContent += "<th>Residents</th>";
+        if (userName !== ''){
+            planetTableContent += "<th>Vote on planet</th>";
+        }
+        planetTableContent += "</thead><tbody>";
         var residentsModals = '';
+        var planetIDArray = [];
         for(let i=0; i<resultPlanets.length; i++){
             var planet = resultPlanets[i];
+            var planetURL = planet['url'];
+            planetURL = planetURL.substring(0, planetURL.length-1);
+            var planetID = planetURL.substring(planetURL.lastIndexOf('/') + 1);
+            planetIDArray.push(planetID);
             var diameterToPrint = Number(planet['diameter']).toLocaleString() + ' km';
             if (planet['diameter'] === 'unknown'){
                 diameterToPrint = 'unknown';
@@ -34,13 +43,21 @@ function showPlanetTable(planetTableURL){
             } else {
                 residentsButtonToPrint = 'No known residents';
             }
+            var voteButtonToPrint;
+            voteButtonToPrint = "<button id=b" + planetID + " type='button' class='btn btn-primary btn-xs'>Vote</button>"
             planetTableContent += "<tr><td>" + planet['name'] + "</td>";
             planetTableContent += "<td>" + diameterToPrint + "</td>";
             planetTableContent += "<td>" + planet['climate'] + "</td>";
             planetTableContent += "<td>" + planet['terrain'] + "</td>";
             planetTableContent += "<td>" + surfaceWaterToPrint + "</td>";
             planetTableContent += "<td>" + populationToPrint + "</td>";
-            planetTableContent += "<td>" + residentsButtonToPrint + "</td></tr>";
+            planetTableContent += "<td>" + residentsButtonToPrint + "</td>";
+            if (userName !== ''){
+                planetTableContent += "<td id=p" + planetID + ">" + voteButtonToPrint + "</td>";
+            }
+            planetTableContent += "</tr>";
+            
+
         }
         planetTableContent += "</tbody></table>";
         $('#button-wrapper').html(buttons);
@@ -48,11 +65,30 @@ function showPlanetTable(planetTableURL){
         $('#table-wrapper').append(residentsModals);
         $('.navbutton').on('click', function(){
             if($(this).text() === 'Next page'){
-                showPlanetTable(response['next']);
+                showPlanetTable(response['next'], userName);
             } else if ($(this).text() === 'Previous'){
-                showPlanetTable(response['previous']);
+                showPlanetTable(response['previous'], userName);
             }
         });
+        
+        // (had to separate into different loop because of asynchronity)
+        for (let i=0; i<planetIDArray.length; i++) {    
+            
+            // check if the user already voted on the planet
+            $.get('/search_db_if_voted', {userName: userName, planetID: planetIDArray[i]}, function(response){
+                if (response.result === 'voted'){
+                    $('#b' + response.planet_id).remove();
+                    $('#p' + response.planet_id).append("<p>You already voted</p>");
+                }
+            }); 
+            // handle vote clicks
+            $('#b' + planetIDArray[i]).on('click', function(){
+                $.post('/register_vote_in_db', {userName: userName, planetID: planetIDArray[i]}, function(response){
+                    $('#b' + response.planet_id).remove();
+                    $('#p' + response.planet_id).append("<p id='success'>Thanks for voting!</p>");
+                });
+            });
+        }
     });
 }
 

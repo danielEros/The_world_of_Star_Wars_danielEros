@@ -2,7 +2,7 @@ p {
     display: inline;
 }
 
-#error_message {
+#error_message, #success {
     color: red;
 }
 
