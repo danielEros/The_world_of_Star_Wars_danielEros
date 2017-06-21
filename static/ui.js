@@ -178,3 +178,7 @@ function createPlanetStatistcsTable(){
     planetStatisticsModalHTML += '</div>';
     return planetStatisticsModalHTML;
 }
+
+function removeCurrentStatisticsModal(){
+    $('#planet_statistics_modal').remove();
+}
