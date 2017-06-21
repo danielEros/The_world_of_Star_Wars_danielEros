@@ -56,8 +56,6 @@ function showPlanetTable(planetTableURL, userName){
                 planetTableContent += "<td id=p" + planetID + ">" + voteButtonToPrint + "</td>";
             }
             planetTableContent += "</tr>";
-            
-
         }
         planetTableContent += "</tbody></table>";
         $('#button-wrapper').html(buttons);
@@ -70,10 +68,8 @@ function showPlanetTable(planetTableURL, userName){
                 showPlanetTable(response['previous'], userName);
             }
         });
-        
-        // (had to separate into different loop because of asynchronity)
+        // had to separate into different loop because of asynchronity
         for (let i=0; i<planetIDArray.length; i++) {    
-            
             // check if the user already voted on the planet
             $.get('/search_db_if_voted', {userName: userName, planetID: planetIDArray[i]}, function(response){
                 if (response.result === 'voted'){
@@ -145,4 +141,40 @@ function createModalTable(modalID, planetName){
     residentModalHTML +=     '</div>';
     residentModalHTML += '</div>';
     return residentModalHTML;
+}
+
+function createPlanetStatistcsModal(){
+    planetStatistcsTable = createPlanetStatistcsTable();
+    $('section').append(planetStatistcsTable);
+    $.get('/get_planet_statistics', function(response){
+        var planetStatisticsRows = '';
+        for (let i=0; i<response.length; i++) {
+            planetStatisticsRows += '<tr class="child"><td>' + response[i][0] + '</td>';
+            planetStatisticsRows += '<td>' + response[i][1] + '</td></tr>'
+        }
+        $('#tplanet_statistics_modal tbody').append(planetStatisticsRows);
+    }); 
+}
+
+function createPlanetStatistcsTable(){
+    planetStatisticsModalHTML = '<div class="modal fade" id="planet_statistics_modal" role="dialog">';
+    planetStatisticsModalHTML +=    '<div class="modal-dialog modal-lg">';
+    planetStatisticsModalHTML +=         '<div class="modal-content">';
+    planetStatisticsModalHTML +=             '<div class="modal-header">';
+    planetStatisticsModalHTML +=                 '<button type="button" class="close" data-dismiss="modal">&times;</button>';
+    planetStatisticsModalHTML +=                 '<h4 class="modal-title">Planet statistics</h4>';
+    planetStatisticsModalHTML +=             '</div>';
+    planetStatisticsModalHTML +=             '<div class="modal-body">';
+    planetStatisticsModalHTML +=                "<table class='table table-bordered' id=tplanet_statistics_modal><thead>";
+    planetStatisticsModalHTML +=                    "<th>Planet</th>";
+    planetStatisticsModalHTML +=                    "<th>Votes</th></thead><tbody>";
+    planetStatisticsModalHTML +=                "</tbody></table>";
+    planetStatisticsModalHTML +=             '</div>';
+    planetStatisticsModalHTML +=             '<div class="modal-footer">';
+    planetStatisticsModalHTML +=                 '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
+    planetStatisticsModalHTML +=             '</div>';
+    planetStatisticsModalHTML +=         '</div>';
+    planetStatisticsModalHTML +=     '</div>';
+    planetStatisticsModalHTML += '</div>';
+    return planetStatisticsModalHTML;
 }

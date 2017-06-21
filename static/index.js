@@ -3,6 +3,7 @@ function main(){
     var wrapperDiv = document.getElementById('button-wrapper');
     var userName = wrapperDiv.dataset['userName'];
     showPlanetTable(currentPlanetTableURL, userName);
+    createPlanetStatistcsModal();
 }
 
 $(document).ready(main);

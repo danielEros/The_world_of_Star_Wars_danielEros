@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, session, url_for, request, jsonify
+import requests
 import werkzeug.security
 import data_manager
 
@@ -58,6 +59,7 @@ def register():
         return render_template('index.html', success_message=success_message, user_name='')
     return render_template('register.html')
 
+
 @app.route('/logout')
 def logout():
     session.pop('username', None)
@@ -70,7 +72,6 @@ def search_db_if_voted():
     user_name = request.args.get('userName')
     user_id = data_manager.get_user_id_by_user_name(user_name)[0][0]
     voted_planets = data_manager.get_planets_voted_by_user(user_id)
-    #print(jsonify(voted_planets))
     result = 'not voted'
     planet_id_to_return = ''
     for planet in voted_planets:
@@ -87,6 +88,18 @@ def register_vote_in_db():
     user_id = data_manager.get_user_id_by_user_name(user_name)[0][0]
     data_manager.update_vote_table(user_id, planet_id)
     return jsonify(result="success", planet_id=planet_id)
+
+
+@app.route('/get_planet_statistics')
+def get_planet_statistics():
+    planet_statistics = data_manager.planet_statistics()
+    planet_statistics_list = []
+    for row in planet_statistics:
+        search_planet_name_in_swapi = requests.get('http://swapi.co/api/planets/%s/' % (row[0])).json()
+        planet_name = search_planet_name_in_swapi['name']
+        row_with_planet_name = [planet_name, row[1]]
+        planet_statistics_list.append(row_with_planet_name)
+    return jsonify(planet_statistics_list)
 
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
