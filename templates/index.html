@@ -17,11 +17,11 @@
         <header class="container">
             <br>
             <div class="row">
-                <div class="col-sm-10">
+                <div class="col-sm-5">
                     <p>{{ success_message }}</p>
                     {% if(user_name=='') %}
                         {% if(success_message == '') %}
-                            <p>You are not logged in.</p>
+                            <p>You are not logged in</p>
                         {% endif %}
                         <a href="/login" class="btn btn-success btn-xs">
                             Login <i class="fa fa-sign-in" aria-hidden="true"></i>
@@ -30,10 +30,19 @@
                             Register <i class="fa fa-user-plus" aria-hidden="true"></i>
                         </a>
                     {% else %}
-                        <p>You are logged in as {{ user_name }}.</p>
+                        <p>You are logged in as {{ user_name }}</p>
                         <a href="/logout" class="btn btn-info btn-xs">
                             Logout <i class="fa fa-sign-out" aria-hidden="true"></i>
                         </a>
+                    {% endif %}
+                </div>
+                <div class="col-sm-5">
+                    {% if(user_name=='') %}    
+                        <img src="/static/R2D2-icon.png" alt="R2" height="20">
+                        <p>Beep-bee-bee-boop-bee-doo-weep</p>
+                    {% else %}
+                        <img src="/static/Chewbacca-icon.png" alt="Chewy" height="20">
+                        <p>Aarrr wgh ggwaaah</p>
                     {% endif %}
                 </div>
                 <div class="col-sm-2">

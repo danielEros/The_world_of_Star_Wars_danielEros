@@ -70,20 +70,23 @@ function showPlanetTable(planetTableURL, userName){
         });
         // had to separate into different loop because of asynchronity
         for (let i=0; i<planetIDArray.length; i++) {    
-            // check if the user already voted on the planet
-            $.get('/search_db_if_voted', {userName: userName, planetID: planetIDArray[i]}, function(response){
-                if (response.result === 'voted'){
-                    $('#b' + response.planet_id).remove();
-                    $('#p' + response.planet_id).append("<p>You already voted</p>");
-                }
-            }); 
-            // handle vote clicks
-            $('#b' + planetIDArray[i]).on('click', function(){
-                $.post('/register_vote_in_db', {userName: userName, planetID: planetIDArray[i]}, function(response){
-                    $('#b' + response.planet_id).remove();
-                    $('#p' + response.planet_id).append("<p id='success'>Thanks for voting!</p>");
+            // only if someone is logged in
+            if (userName != ''){
+                // check if the user already voted on the planet
+                $.get('/search_db_if_voted', {userName: userName, planetID: planetIDArray[i]}, function(response){
+                    if (response.result === 'voted'){
+                        $('#b' + response.planet_id).remove();
+                        $('#p' + response.planet_id).append("<p>You already voted</p>");
+                    }
                 });
-            });
+                // handle vote clicks = put vote into db AND inform the user
+                $('#b' + planetIDArray[i]).on('click', function(){
+                    $.post('/register_vote_in_db', {userName: userName, planetID: planetIDArray[i]}, function(response){
+                        $('#b' + response.planet_id).remove();
+                        $('#p' + response.planet_id).append("<p id='success'>Thanks for voting!</p>");
+                    });
+                });
+            }
         }
     });
 }

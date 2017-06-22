@@ -81,6 +81,7 @@ def search_db_if_voted():
     return jsonify(result=result, planet_id=planet_id)
 
 
+
 @app.route('/register_vote_in_db', methods=['POST'])
 def register_vote_in_db():
     user_name = request.form['userName']
@@ -106,4 +107,4 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
