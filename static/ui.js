@@ -66,9 +66,9 @@ function showPlanetTable(planetTableURL, userName){
         $('#table-wrapper').append(residentsModals);
         $('.navbutton').on('click', function(){
             if($(this).text() === 'Next page'){
-                showPlanetTable(response['next'], userName);
+                showPlanetTable(response['next'].replace("http", "https"), userName);
             } else if ($(this).text() === 'Previous'){
-                showPlanetTable(response['previous'], userName);
+                showPlanetTable(response['previous'].replace("http", "https"), userName);
             }
         });
         // had to separate into different loop because of asynchronity
