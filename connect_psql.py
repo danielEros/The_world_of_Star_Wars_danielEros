@@ -1,5 +1,6 @@
 import psycopg2
 import os
+import urllib
 from importlib.machinery import SourceFileLoader
 current_file_path = os.path.dirname(os.path.abspath(__file__))
 config = SourceFileLoader("config", current_file_path + "/config/config.py").load_module()
@@ -25,12 +26,15 @@ def get_db_config(settings):
 
 def execute_sql_command(command, data):
     try:
-        config_data = get_db_config(config.get_settings())
-        connect_str = ("dbname='" + config_data['db_name'] +
-                       "' user='" + config_data['user'] +
-                       "' host='" + config_data['host'] +
-                       "' password='" + config_data['password'] + "'")
-        connection = psycopg2.connect(connect_str)
+        urllib.parse.uses_netloc.append('postgres')
+        url = urllib.parse.urlparse(os.environ.get('DATABASE_URL'))
+        connection = psycopg2.connect(
+            database=url.path[1:],
+            user=url.username,
+            password=url.password,
+            host=url.hostname,
+            port=url.port
+        )
         connection.autocommit = True
         cursor = connection.cursor()
         cursor.execute(command, data)
