@@ -23,7 +23,7 @@ def get_db_config(settings):
     return dict()
 
 
-def execute_sql_command(command):
+def execute_sql_command(command, data):
     try:
         config_data = get_db_config(config.get_settings())
         connect_str = ("dbname='" + config_data['db_name'] +
@@ -33,7 +33,7 @@ def execute_sql_command(command):
         connection = psycopg2.connect(connect_str)
         connection.autocommit = True
         cursor = connection.cursor()
-        cursor.execute(command)
+        cursor.execute(command, data)
         if "SELECT" in command:
             table = cursor.fetchall()
             cursor.close()
