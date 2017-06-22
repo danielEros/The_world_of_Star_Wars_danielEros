@@ -97,7 +97,7 @@ function showPlanetTable(planetTableURL, userName){
 function getResidentModalHTML(modalID, residentLinkArray, planetName) {
     var residentModalHTML = createModalTable(modalID, planetName);
     for(let i=0; i<residentLinkArray.length; i++){
-        $.getJSON(residentLinkArray[i], function(response){
+        $.getJSON(residentLinkArray[i].replace("http", "https"), function(response){
             var residentDataRow = '';
             var heightToPrint = Number(response['height'])/100 + ' m';
             if (response['height'] === 'unknown'){
