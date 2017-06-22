@@ -16,12 +16,15 @@ function showPlanetTable(planetTableURL, userName){
         planetTableContent += "</thead><tbody>";
         var residentsModals = '';
         var planetIDArray = [];
+        var planetNameArray = [];
         for(let i=0; i<resultPlanets.length; i++){
             var planet = resultPlanets[i];
             var planetURL = planet['url'];
             planetURL = planetURL.substring(0, planetURL.length-1);
             var planetID = planetURL.substring(planetURL.lastIndexOf('/') + 1);
+            var planetName = planet['name'];
             planetIDArray.push(planetID);
+            planetNameArray.push(planetName);
             var diameterToPrint = Number(planet['diameter']).toLocaleString() + ' km';
             if (planet['diameter'] === 'unknown'){
                 diameterToPrint = 'unknown';
@@ -45,7 +48,7 @@ function showPlanetTable(planetTableURL, userName){
             }
             var voteButtonToPrint;
             voteButtonToPrint = "<button id=b" + planetID + " type='button' class='btn btn-primary btn-xs'>Vote</button>"
-            planetTableContent += "<tr><td>" + planet['name'] + "</td>";
+            planetTableContent += "<tr><td>" + planetName + "</td>";
             planetTableContent += "<td>" + diameterToPrint + "</td>";
             planetTableContent += "<td>" + planet['climate'] + "</td>";
             planetTableContent += "<td>" + planet['terrain'] + "</td>";
@@ -81,7 +84,7 @@ function showPlanetTable(planetTableURL, userName){
                 });
                 // handle vote clicks = put vote into db AND inform the user
                 $('#b' + planetIDArray[i]).on('click', function(){
-                    $.post('/register_vote_in_db', {userName: userName, planetID: planetIDArray[i]}, function(response){
+                    $.post('/register_vote_in_db', {userName: userName, planetID: planetIDArray[i], planetName: planetNameArray[i]}, function(response){
                         $('#b' + response.planet_id).remove();
                         $('#p' + response.planet_id).append("<p id='success'>Thanks for voting!</p>");
                     });

@@ -81,26 +81,20 @@ def search_db_if_voted():
     return jsonify(result=result, planet_id=planet_id)
 
 
-
 @app.route('/register_vote_in_db', methods=['POST'])
 def register_vote_in_db():
     user_name = request.form['userName']
     planet_id = request.form['planetID']
+    planet_name = request.form['planetName']
     user_id = data_manager.get_user_id_by_user_name(user_name)[0][0]
-    data_manager.update_vote_table(user_id, planet_id)
+    data_manager.update_vote_table(user_id, planet_id, planet_name)
     return jsonify(result="success", planet_id=planet_id)
 
 
 @app.route('/get_planet_statistics')
 def get_planet_statistics():
     planet_statistics = data_manager.planet_statistics()
-    planet_statistics_list = []
-    for row in planet_statistics:
-        search_planet_name_in_swapi = requests.get('http://swapi.co/api/planets/%s/' % (row[0])).json()
-        planet_name = search_planet_name_in_swapi['name']
-        row_with_planet_name = [planet_name, row[1]]
-        planet_statistics_list.append(row_with_planet_name)
-    return jsonify(planet_statistics_list)
+    return jsonify(planet_statistics)
 
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'

@@ -24,7 +24,8 @@ CREATE TABLE planet_votes (
     id serial NOT NULL,
     planet_id integer,
     users_id integer,
-    submission_time timestamp without time zone
+    submission_time timestamp without time zone,
+    planet_name varchar(30)
 );
 
 
@@ -43,7 +44,7 @@ INSERT INTO users VALUES (2, 'Daniel', 'pbkdf2:sha256:50000$D16YPd4i$033443d86e7
 INSERT INTO users VALUES (3, 'Béci', 'pbkdf2:sha256:50000$vQUz23E0$6c8d838d29f7876292bd51d78aa71030502a4950afd3970c4ab9d66f96f88562');
 SELECT pg_catalog.setval('users_id_seq', 3, true);
 
-INSERT INTO planet_votes VALUES (1, 1, 3, '2017-04-28 08:29:00');
-INSERT INTO planet_votes VALUES (2, 2, 1, '2017-04-29 09:19:00');
-INSERT INTO planet_votes VALUES (3, 5, 2, '2017-05-01 10:41:00');
+INSERT INTO planet_votes VALUES (1, 1, 3, '2017-04-28 08:29:00', 'Tatooine');
+INSERT INTO planet_votes VALUES (2, 2, 1, '2017-04-29 09:19:00', 'Alderaan');
+INSERT INTO planet_votes VALUES (3, 5, 2, '2017-05-01 10:41:00', 'Dagobah');
 SELECT pg_catalog.setval('planet_votes_id_seq', 3, true);
