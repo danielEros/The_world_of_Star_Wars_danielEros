@@ -54,7 +54,7 @@ def register():
         hashed_password = werkzeug.security.generate_password_hash(entered_password, 'pbkdf2:sha256', 8)
         data_manager.register_user(entered_username, hashed_password)
         success_message = 'Registration was successful, please log in!'
-        return render_template('index.html', success_message='', user_name='')
+        return render_template('index.html', success_message=success_message, user_name='')
     return render_template('register.html')
 
 
