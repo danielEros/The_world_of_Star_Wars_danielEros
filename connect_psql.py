@@ -20,6 +20,7 @@ def get_db_config(settings):
 
 
 def execute_sql_command(command, data):
+    connection = None
     try:
         urllib.parse.uses_netloc.append('postgres')
         url = urllib.parse.urlparse(os.environ.get('DATABASE_URL'))
