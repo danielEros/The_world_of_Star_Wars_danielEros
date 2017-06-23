@@ -11,13 +11,6 @@ def index_page():
     user_name = ''
     if 'username' in session:
         user_name = session['username']
-    success_message = ''
-    
-    print (request.url)
-    print (request.path)
-    
-    if request.path == '/register':
-        success_message = 'Registration successful, please log in'
     return render_template('index.html', success_message='', user_name=user_name)
 
 
@@ -61,7 +54,7 @@ def register():
         hashed_password = werkzeug.security.generate_password_hash(entered_password, 'pbkdf2:sha256', 8)
         data_manager.register_user(entered_username, hashed_password)
         success_message = 'Registration was successful, please log in!'
-        return redirect(url_for('index_page'))
+        return render_template('index.html', success_message='', user_name=entered_username)
     return render_template('register.html')
 
 
