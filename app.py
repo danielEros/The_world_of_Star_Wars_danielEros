@@ -29,7 +29,7 @@ def login():
                 error_message = 'The entered password is wrong, please try again!'
                 return render_template('login.html', error_message=error_message)
         session['username'] = entered_username
-        return render_template('index.html', success_message='', user_name=entered_username)
+        return redirect(url_for('index_page'))
     return render_template('login.html')
 
 
@@ -55,7 +55,7 @@ def register():
         hashed_password = werkzeug.security.generate_password_hash(entered_password, 'pbkdf2:sha256', 8)
         data_manager.register_user(entered_username, hashed_password)
         success_message = 'Registration was successful, please log in!'
-        return render_template('index.html', success_message=success_message, user_name='')
+        return redirect(url_for('index_page'))
     return render_template('register.html')
 
 
