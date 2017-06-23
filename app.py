@@ -12,6 +12,10 @@ def index_page():
     if 'username' in session:
         user_name = session['username']
     success_message = ''
+    
+    print (request.url)
+    print (request.path)
+    
     if request.path == '/register':
         success_message = 'Registration successful, please log in'
     return render_template('index.html', success_message='', user_name=user_name)
