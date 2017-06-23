@@ -8,10 +8,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def index_page():
+    user_name = ''
     if 'username' in session:
         user_name = session['username']
-    else:
-        user_name = ''
+    success_message = ''
+    if request.path == '/regiter':
+        success_message = 'Registration successful, please log in'
     return render_template('index.html', success_message='', user_name=user_name)
 
 
