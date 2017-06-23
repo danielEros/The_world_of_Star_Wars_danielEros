@@ -29,7 +29,6 @@ def login():
                 error_message = 'The entered password is wrong, please try again!'
                 return render_template('login.html', error_message=error_message)
         session['username'] = entered_username
-        # return redirect(url_for('index_page'))
         return render_template('index.html', success_message='', user_name=entered_username)
     return render_template('login.html')
 
