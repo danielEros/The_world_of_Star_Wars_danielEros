@@ -85,7 +85,7 @@ function showPlanetTable(planetTableURL, userName){
                 // handle vote clicks = put vote into db AND inform the user
                 $('#b' + planetIDArray[i]).on('click', function(){
                     //$('#b' + response.planet_id).remove();
-                    $('#b' + planetIDArray[i]).remove();
+                    $('#b' + planetIDArray[i]).hide();
                     $.post('/register_vote_in_db', {userName: userName, planetID: planetIDArray[i], planetName: planetNameArray[i]}, function(response){
                         $('#p' + response.planet_id).append("<p id='success'>Thanks for voting!</p>");
                     });
